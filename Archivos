@@ -1,0 +1,115 @@
+void crear(string ruta, string informacion) {
+    ofstream archivo(ruta, ios::app);
+    if (archivo.is_open()) {
+        archivo << informacion << endl;
+        archivo.close();
+    } else {
+        cerr << "No se pudo abrir el archivo" << endl;
+    }
+}
+
+void guardarEstudiantes() {
+    ofstream archivo(ruta_archivo);
+    if (!archivo.is_open()) {
+        cerr << "Error: No se pudo abrir el archivo para guardar en: " << ruta_archivo << endl;
+        return;
+    }
+    
+    for (const auto& estudiante : estudiantes) {
+        string linea = estudiante.cedula + "|" + 
+                      estudiante.nombre + "|" + 
+                      estudiante.carrera + "|" + 
+                      to_string(estudiante.semestreActual) + "|" +
+                      to_string(estudiante.promedioAcumulado) + "|" +
+                      to_string(estudiante.creditosAprobados) + "|" +
+                      (estudiante.activo ? "1" : "0") + "|" +
+                      to_string(estudiante.materiasCursadas.size());
+        
+        for (const auto& materia : estudiante.materiasCursadas) {
+            linea += "|" + materia.codigo + "," + 
+                    materia.nombre + "," + 
+                    to_string(materia.creditos) + "," + 
+                    to_string(materia.nota) + "," + 
+                    materia.periodo + "," + 
+                    materia.estado + "," + 
+                    to_string(materia.intentos) + "," + 
+                    (materia.aprobada ? "1" : "0");
+        }
+        
+        archivo << linea << endl;
+    }
+    
+    archivo.close();
+    cout << "Datos guardados en '" << ruta_archivo << "'" << endl;
+}
+
+void cargarEstudiantes() {
+    ifstream archivo(ruta_archivo);
+    if (!archivo.is_open()) {
+        cout << "No se encontró archivo previo. Iniciando sistema nuevo." << endl;
+        return;
+    }
+    
+    estudiantes.clear();
+    string linea;
+    
+    while (getline(archivo, linea)) {
+        if (linea.empty()) continue;
+        
+        Estudiante estudiante;
+        vector<string> partes;
+        string token;
+        size_t pos = 0;
+        
+        while ((pos = linea.find('|')) != string::npos) {
+            token = linea.substr(0, pos);
+            partes.push_back(token);
+            linea.erase(0, pos + 1);
+        }
+        partes.push_back(linea);
+        
+        if (partes.size() >= 8) {
+            estudiante.cedula = partes[0];
+            estudiante.nombre = partes[1];
+            estudiante.carrera = partes[2];
+            estudiante.semestreActual = stoi(partes[3]);
+            estudiante.promedioAcumulado = stod(partes[4]);
+            estudiante.creditosAprobados = stoi(partes[5]);
+            estudiante.activo = (partes[6] == "1");
+            
+            int numMaterias = stoi(partes[7]);
+            
+            for (int i = 0; i < numMaterias && (8 + i) < partes.size(); i++) {
+                string materiaStr = partes[8 + i];
+                vector<string> datosMateria;
+                size_t posM = 0;
+                
+                while ((posM = materiaStr.find(',')) != string::npos) {
+                    token = materiaStr.substr(0, posM);
+                    datosMateria.push_back(token);
+                    materiaStr.erase(0, posM + 1);
+                }
+                datosMateria.push_back(materiaStr);
+                
+                if (datosMateria.size() >= 8) {
+                    MateriaCursada materia;
+                    materia.codigo = datosMateria[0];
+                    materia.nombre = datosMateria[1];
+                    materia.creditos = stoi(datosMateria[2]);
+                    materia.nota = stod(datosMateria[3]);
+                    materia.periodo = datosMateria[4];
+                    materia.estado = datosMateria[5];
+                    materia.intentos = stoi(datosMateria[6]);
+                    materia.aprobada = (datosMateria[7] == "1");
+                    
+                    estudiante.materiasCursadas.push_back(materia);
+                }
+            }
+            
+            estudiantes.push_back(estudiante);
+        }
+    }
+    
+    archivo.close();
+    cout << "Datos cargados exitosamente. Estudiantes cargados: " << estudiantes.size() << endl;
+}
