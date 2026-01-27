@@ -70,7 +70,7 @@ El sistema está desarrollado en **C++** bajo un enfoque **modular y estructurad
 
 ---
 
-## 🧭 Menú del Sistema
+##  Menú del Sistema
 
 El sistema funciona mediante un **menú interactivo en consola**, organizado en:
 1. Gestión de Estudiantes  
@@ -81,7 +81,7 @@ El sistema funciona mediante un **menú interactivo en consola**, organizado en:
 
 ---
 
-##  Enfoque del Desarrollo
+##  Enfoque del Desarrollo 
 
 - Uso de **programación estructurada y orientada a objetos**.
 - Validación de datos para evitar errores de ingreso.
