@@ -22,6 +22,7 @@ Este proyecto está orientado a la carrera de **Desarrollo de Software** de la *
 ## Motivación del Proyecto
 El sistema fue desarrollado con el objetivo de automatizar y digitalizar la gestión académica, respondiendo a una necesidad real dentro del entorno universitario.  
 Se seleccionó específicamente la carrera de **Desarrollo de Software de la EPN** por los siguientes motivos:
+---
 
 1. **Necesidad real:**  
    Muchas instituciones educativas aún dependen de procesos manuales para la gestión de notas, lo que genera errores y retrasos en los procesos académicos.
@@ -49,7 +50,8 @@ Se seleccionó específicamente la carrera de **Desarrollo de Software de la EPN
 ---
 
 ##Limitaciones del aplicativo 
-No incluye gestión de docentes
-No maneja horarios de clases
-No genera facturación
-No tiene módulo de inscripciones en línea
+
+No incluye gestión de docentes.
+No maneja horarios de clases.
+No genera facturación.
+No tiene módulo de inscripciones en línea.
